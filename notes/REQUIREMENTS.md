@@ -40,3 +40,32 @@ Software Center team members may add versions of catalog items.
 Software Center may deprecate a catalog items. (effectively retiring them, so they don't show up on the catalog)
 
 Any employee in the company can use our API to get a full list of the software catalog we currently support.
+
+
+### A Bit of Design
+
+#### Allowing a software center manager to add vendors
+
+1. What is the resource?
+2. What method?
+3. What data are we sending it? (Representation)
+
+
+```http
+POST http://localhost:1337/vendors 
+Content-Type: application/json
+
+{
+  "name": "Microsoft",
+  "url": "https://microsoft.com",
+  "contact": {
+    "name": "Satya",
+    "email": "Satya@microsoft.com",
+    "phone": "888 555-1212"
+  }
+}
+```
+
+#### Allowing any member of the the software center to add a catalog item for a vendor
+
+#### Allowing any employee to get a list of currently supported software.

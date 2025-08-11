@@ -2,7 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-//builder.Services.AddControllers();
+builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -16,8 +16,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+// Route Table:
+// POST /vendors -> Create the Vendor Controllerr, and Call the AddVendorAsync Method.
 
-app.MapControllers();
+app.MapControllers(); // before we run the application, go find all the "controllers" 
 
 app.Run(); // an endless while loop, basically. it "blocks", keeps running here forever, waiting for requests.
 
