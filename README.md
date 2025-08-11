@@ -6,7 +6,7 @@ This is the repository for the Hypertheory Training class Web API 100.
 
 - [Course Materials](https://services.hypertheory.com)
 - [Hypertheory Training](https://www.hypertheory.com)
-- [Instructor Repo](REPO_SUPPLIED_BY_INSTRUCTOR)
+- [Instructor Repo](https://github.com/JeffryGonzalez/web-api-100-aug-2025)
 
 ## Commands
 
@@ -15,5 +15,5 @@ This is the repository for the Hypertheory Training class Web API 100.
 In the root of your `web-api-100` folder, run the following command:
 
 ```sh
-npx gitpick -o REPO_SUPPLIED_BY_INSTRUCTOR instructor
+npx gitpick -o JeffryGonzalez/web-api-100-aug-2025 instructor
 ```
