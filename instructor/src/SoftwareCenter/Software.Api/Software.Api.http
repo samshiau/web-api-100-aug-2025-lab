@@ -1,0 +1,14 @@
+@Software.Api_HostAddress = http://localhost:1337
+
+POST http://localhost:1337/vendors 
+Content-Type: application/json
+
+{
+  "name": "Microsoft",
+  "url": "https://microsoft.com",
+  "contact": {
+    "name": "Satya",
+    "email": "Satya@microsoft.com",
+    "phone": "888 555-1212"
+  }
+}

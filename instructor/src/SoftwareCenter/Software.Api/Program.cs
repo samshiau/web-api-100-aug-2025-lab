@@ -23,4 +23,3 @@ app.MapControllers(); // before we run the application, go find all the "control
 
 app.Run(); // an endless while loop, basically. it "blocks", keeps running here forever, waiting for requests.
 
-public partial class Program;

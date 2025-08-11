@@ -17,9 +17,3 @@ In the root of your `web-api-100` folder, run the following command:
 ```sh
 npx gitpick -o JeffryGonzalez/web-api-100-aug-2025 instructor
 ```
-
-## Guide -
-
-Some of this is inviting you to "code along" - do it as much as it's helpful.
-
-1. Close your Visual Studio
