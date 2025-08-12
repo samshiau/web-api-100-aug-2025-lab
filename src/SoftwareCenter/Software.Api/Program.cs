@@ -1,5 +1,6 @@
 
 
+using FluentValidation;
 using Marten;
 using Software.Api.Vendors;
 
@@ -21,6 +22,7 @@ builder.Services.AddMarten(opts =>
 // an API, a "scoped" service means "use the same one for the entire request/response"
 builder.Services.AddScoped<ICreateVendors, MartenVendorData>();
 builder.Services.AddScoped<ILookupVendors, MartenVendorData>();
+builder.Services.AddScoped<IValidator<VendorCreateModel>, VendorCreateModelValidator>();
 
 var app = builder.Build(); // The line in the sand, above this is configuring services.
                            // Below this is configuring middleware.

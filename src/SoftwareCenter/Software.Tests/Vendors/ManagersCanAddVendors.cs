@@ -57,6 +57,21 @@ public class ManagersCanAddVendors
         Assert.Equal(postResponseBody, getResponseBody);
 
     }
+
+    [Fact]
+    public async Task InvalidVendorRequestsReturnBadRequest()
+    {
+        var host = await AlbaHost.For<Program>();
+
+        var badRequest = new VendorCreateModel { Name = "", Contact = null!, Url = "" };
+
+        await host.Scenario(api =>
+        {
+            api.Post.Json(badRequest).ToUrl("/vendors");
+            api.StatusCodeShouldBe(400);
+        });
+
+    }
 }
 
 
