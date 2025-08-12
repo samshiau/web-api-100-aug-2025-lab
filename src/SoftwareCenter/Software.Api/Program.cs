@@ -1,5 +1,8 @@
 
 
+using Marten;
+using Software.Api.Vendors;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+var connectionString = builder.Configuration.GetConnectionString("software") ?? throw new Exception("No Connection String Found In Environment");
+
+builder.Services.AddMarten(opts =>
+{
+    opts.Connection(connectionString);
+}).UseLightweightSessions();
+
+builder.Services.AddScoped<ICreateVendors, MartenVendorData>();
 
 var app = builder.Build(); // The line in the sand, above this is configuring services.
                            // Below this is configuring middleware.
