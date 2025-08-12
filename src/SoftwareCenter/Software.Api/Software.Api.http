@@ -12,3 +12,8 @@ Content-Type: application/json
     "phone": "888 555-1212"
   }
 }
+
+
+### 
+
+GET http://localhost:1337/status

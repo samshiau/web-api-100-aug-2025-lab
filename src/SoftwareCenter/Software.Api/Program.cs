@@ -1,3 +1,5 @@
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,6 +23,13 @@ app.UseAuthorization();
 
 app.MapControllers(); // before we run the application, go find all the "controllers" 
 
+// "Minimal APIS"
+app.MapGet("/status", () =>
+{
+    return Results.Ok(new { Status = "Good", Evaluated = DateTimeOffset.Now });
+});
+
 app.Run(); // an endless while loop, basically. it "blocks", keeps running here forever, waiting for requests.
+
 
 public partial class Program;
