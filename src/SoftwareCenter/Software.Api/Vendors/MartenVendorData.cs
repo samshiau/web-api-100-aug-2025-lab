@@ -26,7 +26,7 @@ public class MartenVendorData(IDocumentSession session) : ICreateVendors, ILooku
 
     public async Task<VendorDetailsModel?> GetVendorByIdAsync(Guid id, CancellationToken token)
     {
-        var entity = await session.Query<VendorEntity>().Where(v => v.Id == id).SingleOrDefaultAsync();
+        var entity = await session.Query<VendorEntity>().Where(v => v.Id == id).SingleOrDefaultAsync(token);
         if (entity == null)
         {
             return null;
