@@ -9,15 +9,10 @@ public class MartenVendorData(IDocumentSession session) : ICreateVendors, ILooku
     {
         // create the thing to save in the database, save it(?) return a VendorDetailsModel
         // create insert statement, run it the database.
-        var vendorToSave = new VendorEntity
-        {
-            Id = Guid.NewGuid(),
-            Name = request.Name,
-            Url = request.Url,
-            Contact = request.Contact,
-            CreatedBy = "slime",
-            CreatedOn = DateTimeOffset.UtcNow
-        };
+        /// Mapping - Getting from Point A -> Point B
+
+        var vendorToSave = request.MapToEntity(Guid.NewGuid(), "slime");
+
         session.Store(vendorToSave);
         await session.SaveChangesAsync();
         var response = new VendorDetailsModel(vendorToSave.Id, vendorToSave.Name, vendorToSave.Url, vendorToSave.Contact, vendorToSave.CreatedBy, vendorToSave.CreatedOn);
@@ -32,8 +27,7 @@ public class MartenVendorData(IDocumentSession session) : ICreateVendors, ILooku
             return null;
         } else
         {
-            var response = new VendorDetailsModel(entity.Id, entity.Name, entity.Url, entity.Contact!, entity.CreatedBy, entity.CreatedOn);
-            return response;
+            return entity.MapToDetails(); 
         }
     }
 }
@@ -47,4 +41,9 @@ public class VendorEntity
     public PointOfContact? Contact { get; set; }
     public string CreatedBy { get; set; } = string.Empty;
     public DateTimeOffset CreatedOn { get; set; }
+
+    public VendorDetailsModel MapToDetails()
+    {
+        return new VendorDetailsModel(Id, Name, Url, Contact!, CreatedBy, CreatedOn);
+    }
 }

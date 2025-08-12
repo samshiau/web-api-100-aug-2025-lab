@@ -4,8 +4,8 @@ POST http://localhost:1337/vendors
 Content-Type: application/json
 
 {
-  "name": "Jetbrains",
-  "url": "https://Jetbrains.com",
+  "name": "Docker Inc",
+  "url": "https://docker.com",
   "contact": {
     "name": "Satya",
     "email": "Satya@microsoft.com",
@@ -16,4 +16,4 @@ Content-Type: application/json
 
 ### 
 
-GET http://localhost:1337/vendors/9f243f28-499f-46a9-bf1c-bf9f095c9c76
+GET http://localhost:1337/vendors/9370712f-4a7e-4c37-b75a-1bbaf9e16c08

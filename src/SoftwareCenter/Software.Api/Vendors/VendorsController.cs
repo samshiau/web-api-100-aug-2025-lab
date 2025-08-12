@@ -54,6 +54,22 @@ public class VendorsController : ControllerBase
 }*/
 
 public record PointOfContact(string Name, string Email, string Phone);
-public record VendorCreateModel(string Name, string Url, PointOfContact Contact);
+public record VendorCreateModel(string Name, string Url, PointOfContact Contact)
+{
+    public VendorEntity MapToEntity(Guid id, string createdBy)
+    {
+        return new VendorEntity
+        {
+            Id = id,
+            Contact = Contact,
+            Name = Name,
+            CreatedBy = createdBy,
+            CreatedOn = DateTimeOffset.UtcNow,
+            Url = Url,
+
+
+        };
+    }
+};
 
 public record VendorDetailsModel(Guid Id, string Name, string Url, PointOfContact Contact, string CreatedBy, DateTimeOffset CreatedOn);
