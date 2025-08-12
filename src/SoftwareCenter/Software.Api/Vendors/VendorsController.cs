@@ -19,8 +19,28 @@ public class VendorsController : ControllerBase
         VendorDetailsModel response = await vendorCreator.CreateVendorAsync(request);
 
         // consider a 201 status code - which "created" - and a copy of the thing you just created.
-        return Ok(response); // Bogus.
+        return Created($"/vendors/{response.Id}", response);
     }
+
+
+    [HttpGet("/vendors/{id:guid}")]
+    public async Task<ActionResult> GetVendorByIdAsync([FromRoute] Guid id,
+
+        [FromServices] ILookupVendors vendorLookup,
+        CancellationToken token )
+    {
+
+       VendorDetailsModel? response = await vendorLookup.GetVendorByIdAsync(id, token);
+        if(response is null)
+        {
+            return NotFound();
+        } else
+        {
+            return Ok(response);
+        }
+    }
+
+
 }
 
 /*{

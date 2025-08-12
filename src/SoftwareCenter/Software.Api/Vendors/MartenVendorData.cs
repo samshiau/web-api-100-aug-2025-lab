@@ -3,7 +3,7 @@ using Marten;
 
 namespace Software.Api.Vendors;
 
-public class MartenVendorData(IDocumentSession session) : ICreateVendors
+public class MartenVendorData(IDocumentSession session) : ICreateVendors, ILookupVendors
 {
     public async Task<VendorDetailsModel> CreateVendorAsync(VendorCreateModel request)
     {
@@ -22,6 +22,19 @@ public class MartenVendorData(IDocumentSession session) : ICreateVendors
         await session.SaveChangesAsync();
         var response = new VendorDetailsModel(vendorToSave.Id, vendorToSave.Name, vendorToSave.Url, vendorToSave.Contact, vendorToSave.CreatedBy, vendorToSave.CreatedOn);
         return response;
+    }
+
+    public async Task<VendorDetailsModel?> GetVendorByIdAsync(Guid id, CancellationToken token)
+    {
+        var entity = await session.Query<VendorEntity>().Where(v => v.Id == id).SingleOrDefaultAsync();
+        if (entity == null)
+        {
+            return null;
+        } else
+        {
+            var response = new VendorDetailsModel(entity.Id, entity.Name, entity.Url, entity.Contact!, entity.CreatedBy, entity.CreatedOn);
+            return response;
+        }
     }
 }
 

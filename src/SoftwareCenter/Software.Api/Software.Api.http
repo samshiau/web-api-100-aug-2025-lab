@@ -4,8 +4,8 @@ POST http://localhost:1337/vendors
 Content-Type: application/json
 
 {
-  "name": "Microsoft",
-  "url": "https://microsoft.com",
+  "name": "Jetbrains",
+  "url": "https://Jetbrains.com",
   "contact": {
     "name": "Satya",
     "email": "Satya@microsoft.com",
@@ -16,4 +16,4 @@ Content-Type: application/json
 
 ### 
 
-GET http://localhost:1337/status
+GET http://localhost:1337/vendors/9f243f28-499f-46a9-bf1c-bf9f095c9c76

@@ -18,7 +18,9 @@ builder.Services.AddMarten(opts =>
     opts.Connection(connectionString);
 }).UseLightweightSessions();
 
+// an API, a "scoped" service means "use the same one for the entire request/response"
 builder.Services.AddScoped<ICreateVendors, MartenVendorData>();
+builder.Services.AddScoped<ILookupVendors, MartenVendorData>();
 
 var app = builder.Build(); // The line in the sand, above this is configuring services.
                            // Below this is configuring middleware.
