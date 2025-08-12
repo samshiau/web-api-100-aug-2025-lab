@@ -4,7 +4,7 @@ POST http://localhost:1337/vendors
 Content-Type: application/json
 
 {
-  "name": "Docker Inc",
+ "name": "",
   "url": "https://docker.com",
   "contact": {
     "name": "Satya",

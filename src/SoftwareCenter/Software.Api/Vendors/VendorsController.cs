@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Software.Api.Vendors;
 
+[ApiController]
 public class VendorsController : ControllerBase
 {
     [HttpPost("/vendors")] // POST to a collection resource. 
@@ -10,7 +12,12 @@ public class VendorsController : ControllerBase
         [FromServices] ICreateVendors vendorCreator
         )
     {
-        // Validation
+        //// Validation
+        //if (!ModelState.IsValid)
+        //{
+        //    return BadRequest(ModelState);
+        //}
+     
         // Validate the incoming request, if it isn't valid, send a 400 response.
         // If it is valid - "store this thing" "Side effect"
         // return a success result, and if you can, a copy of the thing you "created"
@@ -18,7 +25,6 @@ public class VendorsController : ControllerBase
    
         VendorDetailsModel response = await vendorCreator.CreateVendorAsync(request);
 
-        // consider a 201 status code - which "created" - and a copy of the thing you just created.
         return Created($"/vendors/{response.Id}", response);
     }
 
@@ -53,9 +59,19 @@ public class VendorsController : ControllerBase
   }
 }*/
 
-public record PointOfContact(string Name, string Email, string Phone);
-public record VendorCreateModel(string Name, string Url, PointOfContact Contact)
+public record PointOfContact
 {
+   
+    public string Name { get; init; } = string.Empty;
+    public string Email { get; init; } = string.Empty;
+    public string Phone { get; init; } = string.Empty;
+}
+public record VendorCreateModel
+{
+
+    public required string Name { get; init; } = string.Empty;
+    public required string Url { get; init; } = string.Empty;
+    public required PointOfContact? Contact { get; init; }
     public VendorEntity MapToEntity(Guid id, string createdBy)
     {
         return new VendorEntity

@@ -15,9 +15,18 @@ public class ManagersCanAddVendors
     public async Task CanAddAVendor()
     {
 
-        var vendorToPost = new VendorCreateModel("Microsoft", "https://www.microsoft.com", new PointOfContact("Satya", "satya@microsoft.com", "800 the-boss"));
+        var vendorToPost = new VendorCreateModel
+        {
+            Name = "Microsoft",
+            Contact = new PointOfContact
+            {
+                Name = "Satya",
+                Email = "satya@microsoft.com",
+                Phone = "555-1212"
+            },
+            Url = "https://microsoft.com"
 
-
+        };
         var host = await AlbaHost.For<Program>(config =>
         {
             config.ConfigureTestServices(services =>
