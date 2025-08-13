@@ -16,13 +16,14 @@ public class CanGetStatus
     [Fact]
     public async Task DuringOpenHours()
     {
+        FakeTimeProvider provider = null!;
         var host = await AlbaHost.For<Program>(config =>
         {
             config.ConfigureTestServices(services =>
             {
-                var fakeTime = new FakeTimeProvider(
+                provider =  new FakeTimeProvider(
                     new DateTimeOffset(2025, 8,14, 14, 37, 00, TimeSpan.FromHours(-4)));
-                services.AddSingleton<TimeProvider>(fakeTime);
+                services.AddSingleton<TimeProvider>(provider);
 ;            });
         });
 
@@ -31,6 +32,7 @@ public class CanGetStatus
             api.Get.Url("/api/status");
             api.StatusCodeShouldBe(200);
         });
+        provider.Advance(TimeSpan.FromDays(3));
 
         var statusMessage = response.ReadAsJson<StatusResponse>();
         Assert.NotNull(statusMessage);

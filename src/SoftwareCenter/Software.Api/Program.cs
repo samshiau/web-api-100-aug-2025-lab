@@ -7,7 +7,7 @@ using Software.Api.Vendors;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddAuthentication().AddJwtBearer();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -33,6 +33,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 // Route Table:
 // POST /vendors -> Create the Vendor Controllerr, and Call the AddVendorAsync Method.

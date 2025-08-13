@@ -1,9 +1,11 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Software.Api.Vendors;
 
 
+[Authorize]
 public class VendorsController : ControllerBase
 {
     [HttpGet("/vendors")]

@@ -1,6 +1,7 @@
 ﻿
 using System.Net.Http.Json;
 using Alba;
+using Alba.Security;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Software.Api.Vendors;
@@ -34,7 +35,7 @@ public class ManagersCanAddVendors
             {
                 //services.AddScoped<ICreateVendors, StubbedVendorCreator>();
             });
-        });
+        }, new AuthenticationStub());
 
         var postResponse = await host.Scenario(api =>
         {
@@ -62,7 +63,7 @@ public class ManagersCanAddVendors
     [Fact]
     public async Task InvalidVendorRequestsReturnBadRequest()
     {
-        var host = await AlbaHost.For<Program>();
+        var host = await AlbaHost.For<Program>((_) => { }, new AuthenticationStub());
 
         var badRequest = new VendorCreateModel { Name = "", Contact = null!, Url = "" };
 
@@ -72,6 +73,20 @@ public class ManagersCanAddVendors
             api.StatusCodeShouldBe(400);
         });
 
+    }
+
+    [Fact]
+    public async Task UnathenticatedGetsA400()
+    {
+        var host = await AlbaHost.For<Program>();
+
+        var badRequest = new VendorCreateModel { Name = "", Contact = null!, Url = "" };
+
+        await host.Scenario(api =>
+        {
+            api.Post.Json(badRequest).ToUrl("/vendors");
+            api.StatusCodeShouldBe(401);
+        });
     }
 }
 
