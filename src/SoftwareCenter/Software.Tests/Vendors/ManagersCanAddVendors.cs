@@ -1,5 +1,6 @@
 ﻿
 using System.Net.Http.Json;
+using System.Security.Claims;
 using Alba;
 using Alba.Security;
 using Microsoft.AspNetCore.TestHost;
@@ -40,6 +41,8 @@ public class ManagersCanAddVendors
         var postResponse = await host.Scenario(api =>
         {
             api.Post.Json(vendorToPost).ToUrl("/vendors");
+            api.WithClaim(new Claim(ClaimTypes.Role, "SoftwareCenter"));
+            api.WithClaim(new Claim(ClaimTypes.Role, "Manager"));
             api.StatusCodeShouldBe(201);
         });
 
@@ -70,7 +73,25 @@ public class ManagersCanAddVendors
         await host.Scenario(api =>
         {
             api.Post.Json(badRequest).ToUrl("/vendors");
+            api.WithClaim(new Claim(ClaimTypes.Role, "SoftwareCenter"));
+            api.WithClaim(new Claim(ClaimTypes.Role, "Manager"));
             api.StatusCodeShouldBe(400);
+        });
+
+    }
+    [Fact]
+    public async Task UnauthorizedWithBadRequestGetsA403()
+    {
+        var host = await AlbaHost.For<Program>((_) => { }, new AuthenticationStub());
+
+        var badRequest = new VendorCreateModel { Name = "", Contact = null!, Url = "" };
+
+        await host.Scenario(api =>
+        {
+            api.Post.Json(badRequest).ToUrl("/vendors");
+            api.WithClaim(new Claim(ClaimTypes.Role, "NotSoftwareCenter"));
+            api.WithClaim(new Claim(ClaimTypes.Role, "NotManager"));
+            api.StatusCodeShouldBe(403);
         });
 
     }

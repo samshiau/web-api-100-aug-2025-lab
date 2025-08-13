@@ -18,6 +18,7 @@ public class VendorsController : ControllerBase
         return Ok(vendors);
     }
 
+    [Authorize(Policy = "SoftwareCenterManager")]
     [HttpPost("/vendors")] // POST to a collection resource. 
     public async Task<ActionResult> AddAVendorAsync(
         [FromBody] VendorCreateModel request,

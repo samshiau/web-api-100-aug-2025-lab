@@ -9,6 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddAuthentication().AddJwtBearer();
 builder.Services.AddControllers();
+
+builder.Services.AddAuthorizationBuilder().AddPolicy("SoftwareCenterManager", pol =>
+{
+    pol.RequireRole("SoftwareCenter");
+    pol.RequireRole("Manager");
+});
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
