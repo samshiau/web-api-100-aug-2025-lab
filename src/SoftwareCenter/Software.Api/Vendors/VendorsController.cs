@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using FluentValidation;
-using Marten;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Software.Api.Vendors;
@@ -38,13 +36,11 @@ public class VendorsController : ControllerBase
     {
 
        VendorDetailsModel? response = await vendorLookup.GetVendorByIdAsync(id, token);
-        if(response is null)
+        return response switch
         {
-            return NotFound();
-        } else
-        {
-            return Ok(response);
-        }
+            null => NotFound(),
+            _ => Ok(response)
+        };
     }
 
 

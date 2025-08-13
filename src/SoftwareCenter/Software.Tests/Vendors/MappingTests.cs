@@ -1,5 +1,4 @@
 ﻿
-using System.ComponentModel;
 using Software.Api.Vendors;
 
 namespace Software.Tests.Vendors;

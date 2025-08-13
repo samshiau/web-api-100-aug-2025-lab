@@ -7,11 +7,12 @@ using Software.Api.Vendors;
 
 namespace Software.Tests.Vendors;
 
+[Trait("Category", "SystemsTest")]
 public class ManagersCanAddVendors
 {
 
     [Fact]
-    [Trait("Category", "SystemsTest")]
+
     public async Task CanAddAVendor()
     {
 

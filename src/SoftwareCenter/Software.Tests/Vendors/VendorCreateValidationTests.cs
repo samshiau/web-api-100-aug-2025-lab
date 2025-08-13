@@ -5,7 +5,7 @@ using FluentValidation.TestHelper;
 
 namespace Software.Tests.Vendors;
 
-[Trait("Category", "Unit")]
+[Trait("Category", "UnitIntegration")]
 public class VendorCreateValidationTests
 {
     [Theory]
