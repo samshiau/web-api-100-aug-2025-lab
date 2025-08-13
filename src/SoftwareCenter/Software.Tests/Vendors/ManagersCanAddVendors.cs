@@ -36,7 +36,7 @@ public class ManagersCanAddVendors
             {
                 //services.AddScoped<ICreateVendors, StubbedVendorCreator>();
             });
-        }, new AuthenticationStub());
+        }, new AuthenticationStub().WithName("sarah@company.com"));
 
         var postResponse = await host.Scenario(api =>
         {
@@ -47,6 +47,9 @@ public class ManagersCanAddVendors
         });
 
         var postResponseBody = await postResponse.ReadAsJsonAsync<VendorDetailsModel>();
+
+        Assert.NotNull(postResponseBody);
+        Assert.Equal("sarah@company.com", postResponseBody.CreatedBy);
 
         var location = postResponse.Context.Response.Headers.Location;
        

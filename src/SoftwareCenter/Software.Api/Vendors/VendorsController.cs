@@ -26,7 +26,7 @@ public class VendorsController : ControllerBase
         [FromServices] IValidator<VendorCreateModel> validator
         )
     {
-
+        var user = User;
         var validations = await validator.ValidateAsync(request);
 
         if (!validations.IsValid)
