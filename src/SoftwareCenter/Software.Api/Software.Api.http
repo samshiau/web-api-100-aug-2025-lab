@@ -17,3 +17,6 @@ Content-Type: application/json
 ### 
 
 GET http://localhost:1337/vendors/9370712f-4a7e-4c37-b75a-1bbaf9e16c08
+
+### 
+GET http://localhost:1337/vendors 

@@ -6,6 +6,16 @@ namespace Software.Api.Vendors;
 
 public class VendorsController : ControllerBase
 {
+    [HttpGet("/vendors")]
+    public async Task<ActionResult> GetAllVendors(
+        [FromServices] ILookupVendors vendorLookup,
+        CancellationToken token)
+    {
+
+        IReadOnlyList<VendorSummaryItem> vendors  = await vendorLookup.GetAllVendorsAsync(token);
+        return Ok(vendors);
+    }
+
     [HttpPost("/vendors")] // POST to a collection resource. 
     public async Task<ActionResult> AddAVendorAsync(
         [FromBody] VendorCreateModel request,
@@ -47,6 +57,12 @@ public class VendorsController : ControllerBase
 }
 
 
+
+public record VendorSummaryItem
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+}
 
 public record PointOfContact
 {

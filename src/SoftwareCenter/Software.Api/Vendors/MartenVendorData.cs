@@ -19,6 +19,18 @@ public class MartenVendorData(IDocumentSession session) : ICreateVendors, ILooku
         return response;
     }
 
+    public async Task<IReadOnlyList<VendorSummaryItem>> GetAllVendorsAsync(CancellationToken token)
+    {
+        var results = await session.Query<VendorEntity>()
+          .OrderBy(r => r.CreatedOn)
+          .Select(r => new VendorSummaryItem { Id = r.Id, Name = r.Name, })
+            .ToListAsync();
+
+        // Select -> Map
+       //var response = results.Select(r => new VendorSummaryItem { Id = r.Id, Name = r.Name, }).ToList();
+        return results;
+    }
+
     public async Task<VendorDetailsModel?> GetVendorByIdAsync(Guid id, CancellationToken token)
     {
         var entity = await session.Query<VendorEntity>().Where(v => v.Id == id).SingleOrDefaultAsync(token);
