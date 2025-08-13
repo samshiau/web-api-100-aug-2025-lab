@@ -22,15 +22,6 @@ public class VendorsController : ControllerBase
         {
             return BadRequest();
         }
-        //// Validation
-        //if (!ModelState.IsValid)
-        //{
-        //    return BadRequest(ModelState);
-        //}
-
-        // Validate the incoming request, if it isn't valid, send a 400 response.
-        // If it is valid - "store this thing" "Side effect"
-        // return a success result, and if you can, a copy of the thing you "created"
 
 
         VendorDetailsModel response = await vendorCreator.CreateVendorAsync(request);
@@ -59,15 +50,7 @@ public class VendorsController : ControllerBase
 
 }
 
-/*{
-  "name": "Microsoft",
-  "url": "https://microsoft.com",
-  "contact": {
-    "name": "Satya",
-    "email": "Satya@microsoft.com",
-    "phone": "888 555-1212"
-  }
-}*/
+
 
 public record PointOfContact
 {
@@ -82,6 +65,8 @@ public class PointOfContactValidator : AbstractValidator<PointOfContact>
     public PointOfContactValidator()
     {
         RuleFor(c => c.Name).NotEmpty();
+        RuleFor(c => c.Email).NotEmpty().When(c => c.Phone == "");
+        RuleFor(c => c.Phone).NotEmpty().When(c => c.Email == "");
     }
 }
 
@@ -90,7 +75,7 @@ public record VendorCreateModel
 
     public required string Name { get; init; } = string.Empty;
     public required string Url { get; init; } = string.Empty;
-    public required PointOfContact? Contact { get; init; }
+    public required PointOfContact Contact { get; init; }
     public VendorEntity MapToEntity(Guid id, string createdBy)
     {
         return new VendorEntity
@@ -113,7 +98,7 @@ public class VendorCreateModelValidator : AbstractValidator<VendorCreateModel>
     {
         RuleFor(v => v.Name).NotEmpty().MinimumLength(3).MaximumLength(100);
         RuleFor(v => v.Url).NotEmpty();
-        RuleFor(v => v.Contact).SetValidator(validator: new PointOfContactValidator());
+        RuleFor(v => v.Contact).NotNull().SetValidator(validator: new PointOfContactValidator()); // The warning was because I had Contact as a nullable reference type.
     }
 }
 
