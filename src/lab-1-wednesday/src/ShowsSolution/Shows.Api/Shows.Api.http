@@ -2,12 +2,15 @@ POST http://localhost:1338/api/shows
 Content-Type: application/json
 
 {
-    "name":"Twin Peaks: The Return",
-    "description":"David Lynch at his best",
-    "streamingService":"Amazon Prime"
+    "name":"Severence",
+    "description":"Weirdnessat his best",
+    "streamingService":"Apple TV"
 }
 
 
 ###
 
 GET http://localhost:1338/api/shows
+
+###
+GET http://localhost:1338/api/status

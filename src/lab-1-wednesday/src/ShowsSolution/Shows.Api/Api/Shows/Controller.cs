@@ -11,7 +11,6 @@ public class Controller(IDocumentSession session,TimeProvider clock): Controller
         [FromBody] ShowCreateRequest request
         )
     {
-
         var entity = request.MapToEntity(Guid.NewGuid(), clock.GetLocalNow());
         session.Store(entity);
         await session.SaveChangesAsync();
@@ -24,7 +23,7 @@ public class Controller(IDocumentSession session,TimeProvider clock): Controller
     {
         var response = await session.Query<ShowEntity>()
           
-            .ProjectToDto()      
+            .ProjectToResponse()   // select from the entities a bunch of ShowDetailResponse   
             .ToListAsync(token);
 
         return Ok(response.OrderByDescending(s => s.CreatedAt));
@@ -49,6 +48,12 @@ public record ShowDetailsResponse
     public DateTimeOffset CreatedAt { get; init ; }
 }
 
+public record ShowSummaryResponse
+{
+    public Guid Id { get; init; }
+    public string Name { get; init; } = string.Empty;
+}
+
 public class ShowEntity
 {
     public Guid Id { get; init; } = Guid.Empty;
@@ -65,5 +70,7 @@ public static partial class ShowMappers
     public static partial ShowEntity MapToEntity(this ShowCreateRequest request, Guid Id, DateTimeOffset createdAt);
     public static partial ShowDetailsResponse MapToResponse(this ShowEntity entity);
 
-    public static partial IQueryable<ShowDetailsResponse> ProjectToDto(this IQueryable<ShowEntity> q);
+    public static partial IQueryable<ShowDetailsResponse> ProjectToResponse(this IQueryable<ShowEntity> q);
 }
+
+

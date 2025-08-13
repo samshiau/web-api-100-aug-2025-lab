@@ -18,7 +18,7 @@ builder.Services.AddMarten(config =>
 
 }).UseLightweightSessions();
 
-builder.Services.AddSingleton(_ => TimeProvider.System);
+builder.Services.AddSingleton<TimeProvider>(_ => TimeProvider.System);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -19,7 +19,7 @@ public class AddingAShow(SystemTestFixture fixture)
             Description = "This is a test show",
             StreamingService = "Netflix"
         };
-       fixture.FakeTime.Advance(TimeSpan.FromSeconds(5));
+      // fixture.FakeTime.Advance(TimeSpan.FromSeconds(5));
         var postResponse = await _host.Scenario(_ =>
         {
             _.Post.Json(postRequestModel).ToUrl("/api/shows");
@@ -40,6 +40,7 @@ public class AddingAShow(SystemTestFixture fixture)
 
         var firstShow = getResponseBody.First();
 
+        //Assert.Equal(postResponseBody, firstShow);
         Assert.Equal(firstShow.CreatedAt, postResponseBody.CreatedAt,TimeSpan.FromMilliseconds(5));
         Assert.True(firstShow.IsCloseEnoughTo(postResponseBody));
     }
