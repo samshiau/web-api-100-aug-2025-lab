@@ -4,7 +4,7 @@ namespace Software.Api.Vendors;
 
 public static class Extensions
 {
-    public static ServiceCollection AddVendors(this ServiceCollection services)
+    public static IServiceCollection AddVendors(this IServiceCollection services)
     {
         services.AddScoped<ICreateVendors, MartenVendorData>();
         services.AddScoped<ILookupVendors, MartenVendorData>();
