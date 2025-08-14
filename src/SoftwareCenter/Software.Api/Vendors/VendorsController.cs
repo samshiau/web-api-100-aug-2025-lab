@@ -6,6 +6,7 @@ namespace Software.Api.Vendors;
 
 
 [Authorize]
+[ApiController] // make me come back to this
 public class VendorsController : ControllerBase
 {
     [HttpGet("/vendors")]
@@ -31,7 +32,9 @@ public class VendorsController : ControllerBase
 
         if (!validations.IsValid)
         {
-            return BadRequest();
+            //return BadRequest(); // just send a 400
+            return BadRequest(validations.Errors); // send a 400 with some error information in it.
+            // we also have problems+json - I'll come back to that
         }
 
 
