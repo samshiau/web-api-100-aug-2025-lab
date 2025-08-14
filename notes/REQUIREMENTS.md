@@ -137,3 +137,32 @@ GET /vendors/839839893/contact
 #### Allowing any member of the the software center to add a catalog item for a vendor
 
 #### Allowing any employee to get a list of currently supported software.
+
+
+"Subordinate Resources"
+
+GET /employees/bob-smith
+Authorization: anyone 
+
+{
+  "id": "bob-smith",
+  "name": "Bob Smith",
+  "department": "DEV",
+  "phone": "555-1212"
+}
+
+
+GET /employees/bob-smith/building
+Authorization: employee, manager
+Cache-Control: public, max-age: 36000
+
+{
+  "location": "Woods"
+}
+
+
+GET /employees/bob-smith/salary
+
+{
+  "current": 120000
+}
