@@ -1,4 +1,4 @@
-﻿namespace Software.Api.CatalogItems;
+﻿namespace Software.Api.CatalogItems.Services;
 
 public interface ICheckForVendors
 {

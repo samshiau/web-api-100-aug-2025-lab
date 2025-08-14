@@ -1,6 +1,7 @@
 ﻿
 using Marten;
 using Software.Api.CatalogItems;
+using Software.Api.CatalogItems.Services;
 
 namespace Software.Api.Vendors;
 

@@ -1,5 +1,7 @@
 using Marten;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Software.Api.CatalogItems.Entities;
+using Software.Api.CatalogItems.Representations;
 
 namespace Software.Api.CatalogItems.Endpoints;
 
