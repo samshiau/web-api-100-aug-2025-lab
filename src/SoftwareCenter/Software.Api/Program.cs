@@ -2,6 +2,7 @@
 
 using FluentValidation;
 using Marten;
+using Software.Api.CatalogItems;
 using Software.Api.Vendors;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,12 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("SoftwareCenterManager", po
 {
     pol.RequireRole("SoftwareCenter");
     pol.RequireRole("Manager");
+}).AddPolicy("SoftwareCenter", pol =>
+{
+    pol.RequireRole("SoftwareCenter");
 });
+
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -26,9 +32,8 @@ builder.Services.AddMarten(opts =>
 }).UseLightweightSessions();
 
 // an API, a "scoped" service means "use the same one for the entire request/response"
-builder.Services.AddScoped<ICreateVendors, MartenVendorData>();
-builder.Services.AddScoped<ILookupVendors, MartenVendorData>();
-builder.Services.AddScoped<IValidator<VendorCreateModel>, VendorCreateModelValidator>();
+builder.Services.AddVendors();
+builder.Services.AddCatalogItems();
 
 var app = builder.Build(); // The line in the sand, above this is configuring services.
                            // Below this is configuring middleware.
@@ -37,6 +42,11 @@ var app = builder.Build(); // The line in the sand, above this is configuring se
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("http://localhost:1337/openapi/v1.json", "v1");
+      // options.SwaggerEndpoint("/openapi/v1.json", "v1");
+    });
 }
 
 app.UseAuthentication();
@@ -46,11 +56,8 @@ app.UseAuthorization();
 
 app.MapControllers(); // before we run the application, go find all the "controllers" 
 
-// "Minimal APIS"
-app.MapGet("/status", () =>
-{
-    return Results.Ok(new { Status = "Good", Evaluated = DateTimeOffset.Now });
-});
+app.MapCatalogItems();
+
 
 app.Run(); // an endless while loop, basically. it "blocks", keeps running here forever, waiting for requests.
 

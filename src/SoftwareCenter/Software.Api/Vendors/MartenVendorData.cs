@@ -1,9 +1,10 @@
 ﻿
 using Marten;
+using Software.Api.CatalogItems;
 
 namespace Software.Api.Vendors;
 
-public class MartenVendorData(IDocumentSession session, IHttpContextAccessor context ) : ICreateVendors, ILookupVendors
+public class MartenVendorData(IDocumentSession session, IHttpContextAccessor context ) : ICreateVendors, ILookupVendors, ICheckForVendors
 {
     public async Task<VendorDetailsModel> CreateVendorAsync(VendorCreateModel request)
     {
@@ -17,6 +18,11 @@ public class MartenVendorData(IDocumentSession session, IHttpContextAccessor con
         await session.SaveChangesAsync();
         var response = new VendorDetailsModel(vendorToSave.Id, vendorToSave.Name, vendorToSave.Url, vendorToSave.Contact, vendorToSave.CreatedBy, vendorToSave.CreatedOn);
         return response;
+    }
+
+    public async Task<bool> DoesVendorExistAsync(Guid id, CancellationToken token)
+    {
+        return await session.Query<VendorEntity>().AnyAsync(v => v.Id == id, token);
     }
 
     public async Task<IReadOnlyList<VendorSummaryItem>> GetAllVendorsAsync(CancellationToken token)
