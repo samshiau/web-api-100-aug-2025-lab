@@ -5,14 +5,15 @@ using Software.Api.CatalogItems.Services;
 
 namespace Software.Api.Vendors;
 
-public class MartenVendorData(IDocumentSession session, IHttpContextAccessor context ) : ICreateVendors, ILookupVendors, ICheckForVendors
+public class MartenVendorData(IDocumentSession session, HttpContext context ) : ICreateVendors, ILookupVendors, ICheckForVendors
 {
     public async Task<VendorDetailsModel> CreateVendorAsync(VendorCreateModel request)
     {
         // create the thing to save in the database, save it(?) return a VendorDetailsModel
         // create insert statement, run it the database.
         /// Mapping - Getting from Point A -> Point B
-        var name = context?.HttpContext?.User?.Identity?.Name ?? "";
+     
+        var name = context.User?.Identity?.Name ?? "";
         var vendorToSave = request.MapToEntity(Guid.NewGuid(), name);
 
         session.Store(vendorToSave);
@@ -64,5 +65,15 @@ public class VendorEntity
     public VendorDetailsModel MapToDetails()
     {
         return new VendorDetailsModel(Id, Name, Url, Contact!, CreatedBy, CreatedOn);
+    }
+}
+
+public class SomeUtility
+{
+    private readonly HttpContext _context;
+
+    public SomeUtility(IHttpContextAccessor accessor)
+    {
+        _context = accessor.HttpContext; /// CAN BLOW UP IN PRODUCTION WHEN YOU ACCESS IT.
     }
 }

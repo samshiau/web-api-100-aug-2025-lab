@@ -10,8 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddAuthentication().AddJwtBearer();
 builder.Services.AddControllers();
+
 builder.Services.AddOpenApi();
-builder.Services.AddHttpContextAccessor(); // Maybe this isn't needed? TODO: look this up.
+
 builder.Services.AddAuthorizationBuilder().AddPolicy("SoftwareCenterManager", pol =>
 {
     pol.RequireRole("SoftwareCenter");
@@ -48,7 +49,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/openapi/v1.json", "v1");
-      // options.SwaggerEndpoint("/openapi/v1.json", "v1");
+
     });
 }
 

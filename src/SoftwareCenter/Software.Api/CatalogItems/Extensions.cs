@@ -28,7 +28,6 @@ public static class Extensions
     
         group.MapGet("/{vendorId:guid}/catalog-items/", GetCatalogItems.Handle);
 
-
         group.MapPost("/{id:guid}/catalog-items", AddCatalogItem.Handle).RequireAuthorization("SoftwareCenter"); // and you are SoftwareCenter
        
         return builder;
