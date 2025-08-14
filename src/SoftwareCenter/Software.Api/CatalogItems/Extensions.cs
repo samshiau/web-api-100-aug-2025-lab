@@ -13,7 +13,7 @@ public static class Extensions
 
     public static IServiceCollection AddCatalogItems(this IServiceCollection services)
     {
-        services.AddScoped<ILookupVendors, MartenVendorData>();
+        services.AddScoped<ICheckForVendors, MartenVendorData>();
         return services;
     }
     public static WebApplication MapCatalogItems(this WebApplication builder)
@@ -24,12 +24,12 @@ public static class Extensions
         }).RequireAuthorization();
         var group = builder.MapGroup("/vendors").RequireAuthorization(); // unless you are identified with a JWT
 
-        //group.MapGet("/{id:guid}/catalog-items", (CatalogItemCreateRequest request) => request);
-        // GET /vendors/{id}
-        // group.MapGet("/{id:guid}/catalog-items/{itemId:guid}", (CatalogItemCreateRequest request) => request);
+        group.MapGet("/{vendorId:guid}/catalog-items/{id:guid}", GetCatalogItem.Handle);
+    
+        group.MapGet("/{vendorId:guid}/catalog-items/", GetCatalogItems.Handle);
 
 
-        group.MapPost("/{id:guid}/catalog-items", AddCatalogItemEndpoint.AddCatalogItemAsync).RequireAuthorization("SoftwareCenter"); // and you are SoftwareCenter
+        group.MapPost("/{id:guid}/catalog-items", AddCatalogItem.Handle).RequireAuthorization("SoftwareCenter"); // and you are SoftwareCenter
        
         return builder;
     }

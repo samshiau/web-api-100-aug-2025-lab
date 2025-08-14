@@ -1,6 +1,6 @@
 
 
-using FluentValidation;
+
 using Marten;
 using Software.Api.CatalogItems;
 using Software.Api.Vendors;
@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddAuthentication().AddJwtBearer();
 builder.Services.AddControllers();
+builder.Services.AddOpenApi();
 builder.Services.AddHttpContextAccessor(); // Maybe this isn't needed? TODO: look this up.
 builder.Services.AddAuthorizationBuilder().AddPolicy("SoftwareCenterManager", pol =>
 {
@@ -35,6 +36,8 @@ builder.Services.AddMarten(opts =>
 builder.Services.AddVendors();
 builder.Services.AddCatalogItems();
 
+
+
 var app = builder.Build(); // The line in the sand, above this is configuring services.
                            // Below this is configuring middleware.
 
@@ -44,7 +47,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("http://localhost:1337/openapi/v1.json", "v1");
+        options.SwaggerEndpoint("/openapi/v1.json", "v1");
       // options.SwaggerEndpoint("/openapi/v1.json", "v1");
     });
 }

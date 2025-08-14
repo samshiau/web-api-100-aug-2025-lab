@@ -9,6 +9,7 @@ public static class Extensions
         services.AddScoped<ICreateVendors, MartenVendorData>();
         services.AddScoped<ILookupVendors, MartenVendorData>();
         services.AddScoped<IValidator<VendorCreateModel>, VendorCreateModelValidator>();
+
         return services;
     }
 }

@@ -3,25 +3,17 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Software.Api.CatalogItems.Endpoints;
 
-public static  class AddCatalogItemEndpoint
+public static class AddCatalogItem
 {
-    public static async Task<
-        Results<
-            Ok<CatalogItemResponse>, 
-            NotFound<string>>> AddCatalogItemAsync(
-                    CatalogItemCreateRequest request,
-            Guid id,
-            ICheckForVendors vendorChecker,
-            IDocumentSession session,
-            CancellationToken token
-        )
+    public static async Task<Results<Ok<CatalogItemResponse>, NotFound<string>>> Handle(
+        CatalogItemCreateRequest request, Guid id, ICheckForVendors vendorChecker, IDocumentSession session,
+        CancellationToken token)
     {
         // validate
         // validate the body of this request
         // and validate that the id parameter is for a an existing vendor
         if (await vendorChecker.DoesVendorExistAsync(id, token))
         {
-
             // If good, create a CatalogItemEntity, Store it.
             var entityToSave = new CatalogItemEntity
             {
@@ -30,7 +22,6 @@ public static  class AddCatalogItemEndpoint
                 Description = request.Description,
                 Version = request.Version,
                 VendorId = id,
-
             };
             session.Store(entityToSave);
             await session.SaveChangesAsync();
